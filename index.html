@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryHub - Platform Cerita Digital</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">StoryHub</div>
+        <nav class="main-nav">
+            <button class="mobile-menu-btn">☰</button>
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li class="genre-dropdown">
+                    <a href="#">Genre</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="genres/romance.html">Romance</a></li>
+                        <li><a href="genres/fantasy.html">Fantasy</a></li>
+                        <li><a href="genres/horror.html">Horror</a></li>
+                    </ul>
+                </li>
+                <li><a href="#popular">Populer</a></li>
+                <li><a href="#new">Baru</a></li>
+            </ul>
+        </nav>
+        <div class="search-box">
+            <input type="text" placeholder="Cari cerita...">
+            <button>Cari</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-banner">
+            <h1>Temukan Cerita Menarik Hari Ini</h1>
+            <p>Baca karya dari penulis berbakat di seluruh negeri</p>
+        </section>
+
+        <section class="featured-stories">
+            <h2>Cerita Unggulan</h2>
+            <div class="story-grid">
+                <!-- Contoh story card -->
+                <article class="story-card" data-genre="romance">
+                    <a href="stories/love-in-jakarta.html">
+                        <img src="assets/images/love-in-jakarta-thumb.jpg" alt="Love in Jakarta" class="story-thumb">
+                        <h3>Love in Jakarta</h3>
+                        <p class="author">By: Sarah Wijaya</p>
+                        <p class="excerpt">Cerita tentang pertemuan tak terduga di tengah kemacetan Jakarta...</p>
+                        <div class="rating">★★★★☆ (4.2)</div>
+                    </a>
+                </article>
+                <!-- Story cards lainnya -->
+            </div>
+        </section>
+
+        <section class="genre-section">
+            <h2>Jelajahi Berdasarkan Genre</h2>
+            <div class="genre-grid">
+                <a href="genres/romance.html" class="genre-card">
+                    <img src="assets/images/romance-bg.jpg" alt="Romance">
+                    <h3>Romance</h3>
+                </a>
+                <!-- Genre cards lainnya -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tentang StoryHub</h3>
+                <p>Platform untuk penulis dan pembaca menikmati cerita digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Monetisasi</h3>
+                <ul>
+                    <li><a href="#">Program Penulis</a></li>
+                    <li><a href="#">Donasi</a></li>
+                    <li><a href="#">Iklan</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p>Email: admin@storyhub.com</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 StoryHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
