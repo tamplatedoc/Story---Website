@@ -1,3 +1,6 @@
+// Firebase setup (pastikan Firebase sudah diinisialisasi di file HTML)
+const db = getDatabase();
+
 // Modal functionality
 const modal = document.getElementById('story-modal');
 const addStoryBtn = document.getElementById('add-story-btn');
@@ -17,29 +20,69 @@ window.addEventListener('click', function(event) {
     }
 });
 
+// Inisialisasi struktur database sekali saja saat halaman load
+function initDatabaseStructure() {
+    const dbRef = ref(db);
+    
+    get(dbRef).then((snapshot) => {
+        if (!snapshot.exists()) {
+            set(dbRef, {
+                stories: {
+                    story1: {
+                        title: "Love in Jakarta",
+                        author: "Sarah Wijaya",
+                        genre: "romance",
+                        content: "Cerita tentang...",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    }
+                },
+                genres: ["romance", "fantasy", "horror"]
+            }).then(() => {
+                console.log("Struktur database berhasil dibuat!");
+            });
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', initDatabaseStructure);
+
+// Fungsi simpan cerita ke Firebase
+function saveStoryToFirebase(storyData) {
+    const storiesRef = ref(db, 'stories');
+    const newStoryRef = push(storiesRef);
+
+    set(newStoryRef, storyData)
+        .then(() => {
+            alert('Cerita berhasil disimpan!');
+        })
+        .catch((error) => {
+            console.error("Error saving story: ", error);
+        });
+}
+
 // Form submission
 document.getElementById('story-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Validasi form
     const title = document.getElementById('story-title').value;
     const content = document.getElementById('story-content').value;
-    
+
     if (!title || !content) {
         alert('Judul dan isi cerita harus diisi');
         return;
     }
-    
-    // Simulasi pengiriman data
-    console.log('Data cerita:', {
+
+    const storyData = {
         title: title,
         author: document.getElementById('story-author').value,
         genre: document.getElementById('story-genre').value,
         content: content,
-        meta: document.getElementById('story-meta').value
-    });
-    
-    alert('Cerita berhasil disimpan!');
+        thumbnail: "placeholder.jpg", // Ganti dengan URL thumbnail jika ada
+        createdAt: new Date().toISOString()
+    };
+
+    saveStoryToFirebase(storyData);
     modal.style.display = 'none';
     this.reset();
 });
@@ -59,7 +102,6 @@ document.getElementById('story-meta').addEventListener('input', function() {
 // Logout button
 document.getElementById('logout-btn').addEventListener('click', function() {
     if (confirm('Anda yakin ingin logout?')) {
-        // Redirect ke halaman login
         window.location.href = 'login.html';
     }
 });
@@ -87,8 +129,8 @@ document.getElementById('story-thumbnail').addEventListener('change', function(e
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-            // Bisa ditambahkan preview thumbnail di sini
             console.log('Thumbnail dipilih:', event.target.result);
+            // Tambahkan preview jika perlu
         };
         reader.readAsDataURL(file);
     }
