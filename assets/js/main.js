@@ -2,6 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const db = window.firebaseDatabase;
   const storiesRef = firebase.database().ref(db, 'stories');
 
+  // Mengambil data cerita dari Firebase
   storiesRef.on('value', snapshot => {
     const stories = snapshot.val();
     const storyGrid = document.querySelector('.story-grid');
@@ -22,4 +23,35 @@ window.addEventListener('DOMContentLoaded', () => {
       storyGrid.innerHTML += card;
     }
   });
+
+  // Tombol menu burger (mobile)
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  const navMenu = document.querySelector('.main-nav ul');
+
+  if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+  }
+
+  // Dropdown Genre
+  const genreDropdown = document.querySelector('.genre-dropdown');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+
+  if (genreDropdown && dropdownMenu) {
+    genreDropdown.addEventListener('click', (event) => {
+      event.preventDefault();
+      dropdownMenu.classList.toggle('show');
+    });
+
+    // Menutup dropdown & nav jika klik di luar
+    document.addEventListener('click', (event) => {
+      if (!navMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+        navMenu.classList.remove('show');
+      }
+      if (!dropdownMenu.contains(event.target) && !genreDropdown.contains(event.target)) {
+        dropdownMenu.classList.remove('show');
+      }
+    });
+  }
 });
