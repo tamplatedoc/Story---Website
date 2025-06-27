@@ -231,3 +231,25 @@ footer {
         margin-top: 1rem;
     }
 }
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none; /* Sembunyikan dropdown secara default */
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+}
+
+.genre-dropdown .dropdown-menu.show {
+    display: block; /* Tampilkan dropdown ketika kelas 'show' ditambahkan */
+}
+
+/* Menu Mobile Toggle */
+.main-nav ul.show {
+    display: flex; /* Tampilkan menu saat mode mobile */
+    flex-direction: column;
+}
+
