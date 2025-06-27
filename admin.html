@@ -63,6 +63,125 @@
 </head>
 <body>
   <!-- ... SIDEBAR DAN FORMULIR ... (salin dari kode Ahmad sebelumnya) ... -->
+ <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">StoryHub Admin</div>
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active"><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#stories">Kelola Cerita</a></li>
+                    <li><a href="#genres">Kelola Genre</a></li>
+                    <li><a href="#thumbnails">Kelola Thumbnail</a></li>
+                    <li><a href="#seo">Pengaturan SEO</a></li>
+                    <li><a href="#monetization">Monetisasi</a></li>
+                    <li><a href="#analytics">Analytics</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Dashboard</h1>
+                <div class="admin-actions">
+                    <button id="logout-btn">Logout</button>
+                </div>
+            </header>
+
+            <section class="admin-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Cerita</h3>
+                        <p class="stat-value">128</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pengunjung Hari Ini</h3>
+                        <p class="stat-value">1,024</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pendapatan Bulan Ini</h3>
+                        <p class="stat-value">Rp 3,250,000</p>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h2>Quick Actions</h2>
+                    <div class="action-buttons">
+                        <button id="add-story-btn">Tambah Cerita Baru</button>
+                        <button id="upload-thumb-btn">Upload Thumbnail</button>
+                        <button id="check-seo-btn">Periksa SEO</button>
+                    </div>
+                </div>
+
+                <div class="recent-stories">
+                    <h2>Cerita Terbaru</h2>
+                    <table class="story-table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th>Genre</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Love in Jakarta</td>
+                                <td>Sarah Wijaya</td>
+                                <td>Romance</td>
+                                <td>2023-10-15</td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="seo-btn">SEO</button>
+                                </td>
+                            </tr>
+                            <!-- More rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal Tambah Cerita -->
+    <div id="story-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Tambah Cerita Baru</h2>
+            <form id="story-form">
+                <div class="form-group">
+                    <label for="story-title">Judul Cerita</label>
+                    <input type="text" id="story-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="story-author">Penulis</label>
+                    <input type="text" id="story-author" required>
+                </div>
+                <div class="form-group">
+                    <label for="story-genre">Genre</label>
+                    <select id="story-genre" required>
+                        <option value="romance">Romance</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="horror">Horror</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="story-content">Isi Cerita</label>
+                    <textarea id="story-content" rows="10" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="story-thumbnail">Thumbnail</label>
+                    <input type="file" id="story-thumbnail" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="story-meta">Meta Description</label>
+                    <textarea id="story-meta" rows="3" required></textarea>
+                    <p class="char-count"><span id="meta-count">0</span>/160 karakter</p>
+                </div>
+                <button type="submit" class="submit-btn">Simpan Cerita</button>
+            </form>
+        </div>
+    </div>
   <!-- Tambahkan ini di dalam #story-form -->
   <input type="hidden" id="thumbnail-url" name="thumbnail-url">
   <script src="assets/js/admin.js"></script>
