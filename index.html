@@ -3,144 +3,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="StoryHub - Platform Cerita Digital untuk penulis dan pembaca. Temukan cerita menarik hari ini!">
-  <title>StoryHub - Platform Cerita Digital</title>
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getDatabase } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDeiLybtGc6evATj5O7M1FiJd1GPYd-rYc",
-      authDomain: "tamplatedoc.firebaseapp.com",
-      databaseURL: "https://tamplatedoc-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "tamplatedoc<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Etalase Buku Cerita</title>
-  <meta name="description" content="Koleksi digital buku cerita menarik dan edukatif." />
-  <meta name="keywords" content="buku cerita, digital, etalase, literasi, anak, remaja" />
-  <meta property="og:title" content="Etalase Buku Cerita" />
-  <meta property="og:description" content="Temukan buku cerita inspiratif dan edukatif untuk semua usia." />
-  <meta property="og:image" content="https://via.placeholder.com/600x400?text=Etalase+Buku" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://amdf.web.id/" />
+  <title>Admin Panel</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #4caf50;
+      --secondary: #2196f3;
+      --dark: #1a1a2e;
+      --light: #ffffff;
+      --border-color: #ff5252;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Roboto', sans-serif;
     }
 
     body {
-      line-height: 1.6;
-      background-color: #f9f9f9;
-      color: #333;
+      background: linear-gradient(to bottom right, #ff1744, #9c27b0, #1976d2);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
     }
 
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 15px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    header, footer {
       text-align: center;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
 
-    nav ul {
+    h1 {
+      color: var(--light);
+      margin-bottom: 10px;
+    }
+
+    .login, .panel {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(26, 26, 46, 0.85);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px var(--border-color);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+    }
+
+    button {
+      padding: 10px 16px;
+      background: var(--primary);
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: var(--secondary);
+    }
+
+    .card {
+      background: #1e1e1e;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+    }
+
+    .cover {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 1rem auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px var(--border-color);
+    }
+
+    .controls {
       display: flex;
       justify-content: center;
+      gap: 0.8rem;
       flex-wrap: wrap;
-      list-style: none;
-      gap: 15px;
-      margin-top: 10px;
+      margin-bottom: 1.5rem;
     }
 
-    nav ul li a {
-      text-decoration: none;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    nav ul li a:hover {
-      background-color: #34495e;
-    }
-
-    #search {
-      width: 80%;
+    .upload-btn {
+      background: var(--primary);
+      color: var(--light);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
       padding: 10px;
-      margin: 20px auto;
-      display: block;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      transition: 0.3s;
     }
 
-    main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    #book-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .book-item {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 15px;
-      transition: transform 0.2s;
-    }
-
-    .book-item:hover {
-      transform: translateY(-5px);
-    }
-
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 30px;
+    .upload-btn:hover {
+      background: var(--secondary);
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Etalase Buku Cerita</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Beranda</a></li>
-        <li><a href="about.html">Tentang Kami</a></li>
-        <li><a href="contact.html">Kontak</a></li>
-        <li><a href="privacy.html">Privasi</a></li>
-        <li><a href="terms.html">Syarat</a></li>
-      </ul>
-    </nav>
-    <input type="text" id="search" placeholder="Cari buku..." />
+    <h1>Admin Panel</h1>
   </header>
-  <main>
-    <section id="book-list">
-      <div class="book-item">
-        <h2>Memuat Data...</h2>
-        <p>Sedang mengambil data dari server</p>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; <span id="year"></span> Etalase Buku Cerita. Semua hak dilindungi.</p>
-  </footer>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
+  <div class="login" id="login-box">
+    <h2>Login Admin</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="loginAdmin()">Login</button>
+  </div>
+
+  <div class="panel" id="admin-panel" style="display:none">
+    <h2>➕ Tambah Cerita</h2>
+    <input id="judul" placeholder="Judul Cerita">
+    <input id="genre" placeholder="Genre">
+    <textarea id="isi" rows="5" placeholder="Isi cerita chapter 1..."></textarea>
+    <input type="file" id="gambar-file" accept="image/*">
+    <input id="gambar-url" placeholder="URL Gambar Cover (opsional)">
+    <button onclick="tambahCerita()">Simpan Cerita</button>
+
+    <h3>🗑 Hapus Komentar</h3>
+    <input id="id-cerita" placeholder="ID Cerita">
+    <div id="komentar-list"></div>
+    <button onclick="goBack()">Kembali ke Beranda</button>
+  </div>
+
+  <footer>
+    &copy; 2024 Perpustakaan Digital
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDeiLybtGc6evATj5O7M1FiJd1GPYd-rYc",
       authDomain: "tamplatedoc.firebaseapp.com",
@@ -150,138 +164,72 @@
       messagingSenderId: "264966107720",
       appId: "1:264966107720:web:868abe93cdff209040de7d"
     };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const firestore = firebase.firestore();
+    const realtimeDB = firebase.database();
+    const storage = firebase.storage();
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const bookList = document.getElementById('book-list');
-    const searchInput = document.getElementById('search');
-
-    let allBooks = [];
-
-    onValue(ref(db, 'books/'), (snapshot) => {
-      const data = snapshot.val();
-      allBooks = Object.values(data);
-      displayBooks(allBooks);
-    });
-
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase();
-      const filtered = allBooks.filter(b => b.title.toLowerCase().includes(searchTerm));
-      displayBooks(filtered);
-    });
-
-    function displayBooks(data) {
-      bookList.innerHTML = '';
-      data.forEach(book => {
-        const div = document.createElement('div');
-        div.className = 'book-item';
-        div.innerHTML = `
-          <h2>${book.title}</h2>
-          <p>${book.description}</p>
-        `;
-        bookList.appendChild(div);
-      });
+    function loginAdmin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email, password).then(() => {
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+      }).catch(err => alert("Login gagal: " + err.message));
     }
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    function tambahCerita() {
+      const judul = document.getElementById('judul').value;
+      const genre = document.getElementById('genre').value;
+      const isi = document.getElementById('isi').value;
+      const gambarUrlManual = document.getElementById('gambar-url').value;
+
+      const fileInput = document.getElementById('gambar-file');
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const ref = storage.ref('images/' + file.name);
+        ref.put(file).then(snapshot => {
+          return ref.getDownloadURL();
+        }).then(url => {
+          return firestore.collection('koleksi').add({ judul, genre, isi, gambarUrl: url });
+        }).then(() => {
+          alert("Cerita berhasil ditambahkan dengan gambar upload");
+        }).catch(err => alert("Gagal menyimpan cerita: " + err.message));
+      } else {
+        firestore.collection("koleksi").add({ judul, genre, isi, gambarUrl: gambarUrlManual }).then(() => {
+          alert("Cerita ditambahkan tanpa gambar upload");
+        }).catch(err => alert("Gagal menyimpan cerita: " + err.message));
+      }
+    }
+
+    document.getElementById('id-cerita').addEventListener('change', function () {
+      const id = this.value;
+      const list = document.getElementById('komentar-list');
+      list.innerHTML = 'Memuat...';
+      realtimeDB.ref(`komentar/${id}`).once('value', snap => {
+        const data = snap.val();
+        list.innerHTML = '';
+        if (data) {
+          Object.entries(data).forEach(([key, val]) => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.textContent = val.teks || '';
+            const btn = document.createElement('button');
+            btn.textContent = 'Hapus';
+            btn.onclick = () => realtimeDB.ref(`komentar/${id}/${key}`).remove();
+            div.appendChild(btn);
+            list.appendChild(div);
+          });
+        } else {
+          list.textContent = 'Tidak ada komentar';
+        }
+      });
+    });
+
+    function goBack() {
+      window.location.href = 'index.html';
+    }
   </script>
-</body>
-</html>
-
-
-      storageBucket: "tamplatedoc.appspot.com",
-      messagingSenderId: "264966107720",
-      appId: "1:264966107720:web:868abe93cdff209040de7d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    window.firebaseApp = app;
-    window.firebaseDatabase = database;
-  </script>
-</head>
-<body>
-  <header class="main-header">
-    <div class="logo">StoryHub</div>
-    <nav class="main-nav">
-      <button class="mobile-menu-btn" aria-label="Menu">☰</button>
-      <ul>
-        <li><a href="index.html">Beranda</a></li>
-        <li class="genre-dropdown">
-          <a href="#">Genre</a>
-          <ul class="dropdown-menu">
-            <li><a href="genres/romance.html">Romance</a></li>
-            <li><a href="genres/fantasy.html">Fantasy</a></li>
-            <li><a href="genres/horror.html">Horror</a></li>
-          </ul>
-        </li>
-        <li><a href="#popular">Populer</a></li>
-        <li><a href="#new">Baru</a></li>
-      </ul>
-    </nav>
-    <div class="search-box">
-      <input type="text" placeholder="Cari cerita..." aria-label="Search stories">
-      <button>Cari</button>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero-banner">
-      <h1>Temukan Cerita Menarik Hari Ini</h1>
-      <p>Baca karya dari penulis berbakat di seluruh negeri</p>
-    </section>
-
-    <section class="featured-stories">
-      <h2>Cerita Unggulan</h2>
-      <div class="story-grid">
-        <article class="story-card" data-genre="romance">
-          <a href="stories/love-in-jakarta.html">
-            <img src="assets/images/love-in-jakarta-thumb.jpg" alt="Love in Jakarta - Cerita tentang pertemuan tak terduga" class="story-thumb">
-            <h3>Love in Jakarta</h3>
-            <p class="author">By: Sarah Wijaya</p>
-            <p class="excerpt">Cerita tentang pertemuan tak terduga di tengah kemacetan Jakarta...</p>
-            <div class="rating">★★★★☆ (4.2)</div>
-          </a>
-        </article>
-        <!-- Story cards lainnya -->
-      </div>
-    </section>
-
-    <section class="genre-section">
-      <h2>Jelajahi Berdasarkan Genre</h2>
-      <div class="genre-grid">
-        <a href="genres/romance.html" class="genre-card">
-          <img src="assets/images/romance-bg.jpg" alt="Genre Romance" class="genre-image">
-          <h3>Romance</h3>
-        </a>
-        <!-- Genre cards lainnya -->
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Tentang StoryHub</h3>
-        <p>Platform untuk penulis dan pembaca menikmati cerita digital.</p>
-      </div>
-      <div class="footer-section">
-        <h3>Monetisasi</h3>
-        <ul>
-          <li><a href="#">Program Penulis</a></li>
-          <li><a href="#">Donasi</a></li>
-          <li><a href="#">Iklan</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Kontak</h3>
-        <p>Email: admin@storyhub.com</p>
-      </div>
-    </div>
-    <div class="copyright">
-      <p>&copy; 2023 StoryHub. All rights reserved.</p>
-    </div>
-  </footer>
-  <script src="assets/js/main.js"></script>
 </body>
 </html>
