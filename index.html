@@ -1,61 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Verifikasi reCAPTCHA</title>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <meta charset="UTF-8">
+  <title>Login dengan reCAPTCHA v3</title>
+  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script>
 </head>
 <body>
-  <h2>Verifikasi reCAPTCHA</h2>
-  <form id="verifyForm">
-    <div class="g-recaptcha" data-sitekey="6LdbSIArAAAAAF1zDt-gVZtU3RhIyb7algKArnXP"></div>
-    <br>
-    <button type="submit">Verifikasi</button>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Login</button>
   </form>
 
-  <div id="result"></div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-functions.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDeiLybtGc6evATj5O7M1FiJd1GPYd-rYc",
-      authDomain: "tamplatedoc.firebaseapp.com",
-      projectId: "tamplatedoc",
-      appId: "1:264966107720:web:868abe93cdff209040de7d",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const functions = getFunctions(app);
-    const verifyRecaptcha = httpsCallable(functions, "verifyRecaptcha");
-
-    const form = document.getElementById("verifyForm");
-    const resultDiv = document.getElementById("result");
-
-    form.addEventListener("submit", async (e) => {
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      const token = grecaptcha.getResponse();
 
-      if (!token) {
-        resultDiv.textContent = "Silakan selesaikan reCAPTCHA.";
-        return;
-      }
-
-      resultDiv.textContent = "Memverifikasi...";
-
-      try {
-        const result = await verifyRecaptcha({ token });
-        resultDiv.textContent = "Berhasil diverifikasi ✅";
-        grecaptcha.reset(); // Reset agar bisa diverifikasi ulang
-      } catch (error) {
-        console.error(error);
-        resultDiv.textContent = "Verifikasi gagal ❌: " + (error.message || error.code);
-        grecaptcha.reset();
-      }
+      grecaptcha.ready(function () {
+        grecaptcha.execute('YOUR_SITE_KEY', { action: 'login' }).then(function (token) {
+          fetch('https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/verifyRecaptchaV3', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              token: token,
+              email: document.getElementById("email").value,
+              password: document.getElementById("password").value
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Login berhasil!");
+              // lanjutkan login Firebase, redirect, dll
+            } else {
+              alert("Login ditolak karena score terlalu rendah atau aktivitas mencurigakan.");
+            }
+          });
+        });
+      });
     });
   </script>
 </body>
 </html>
+
 
