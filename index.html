@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Login dengan reCAPTCHA v3</title>
-  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LcIU4ArAAAAAPqH6DV_PA-9wraqY3KW8bddSYnT"></script>
 </head>
 <body>
   <h2>Login</h2>
@@ -19,7 +19,7 @@
 
       grecaptcha.ready(function () {
         grecaptcha.execute('YOUR_SITE_KEY', { action: 'login' }).then(function (token) {
-          fetch('https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/verifyRecaptchaV3', {
+          fetch('https://us-central1-tamplatedoc.cloudfunctions.net/verifyRecaptchaV3', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
